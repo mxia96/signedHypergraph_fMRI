@@ -20,11 +20,12 @@ def learning_rate(cfg, n_subjects, n_rois):
     return cfg.step_size * n_subjects * n_rois ** 2
 
 
-def apply_threshold(H, threshold):
-    """Set incidence coefficients with |h_ij| < threshold to zero."""
+def apply_threshold(H, threshold, eps):
+    """Set incidence coefficients with |h_ij| < threshold to zero, then re-normalise every row
+    to unit l2 norm so that the constraint D~_n = I still holds."""
     if threshold <= 0:
         return H
-    return np.where(np.abs(H) < threshold, 0.0, H)
+    return row_normalize(np.where(np.abs(H) < threshold, 0.0, H), eps)
 
 
 def _converged(J_new, J_old, eps):

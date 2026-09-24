@@ -29,7 +29,8 @@ class ConstructionConfig:
     tol: float = 1e-6                       # epsilon
     init_random_state: int = 42
 
-    # coefficients with |h_ij| < threshold are set to zero in the saved incidence matrices (0 disables)
+    # coefficients with |h_ij| < threshold are set to zero in the saved incidence matrices and every
+    # row is re-normalised to unit l2 norm (0 disables)
     threshold: float = 0.05
 
     verbose: bool = True

@@ -35,8 +35,8 @@ def main():
         H_test, info_te = infer_hypergraph(P_test, H_train, cfg, info["learning_rate"], cfg.verbose)
         print(f"inference: {info_te['iterations'].mean():.0f} iterations on average")
 
-    H_train = apply_threshold(H_train, cfg.threshold)
-    H_test = apply_threshold(H_test, cfg.threshold)
+    H_train = apply_threshold(H_train, cfg.threshold, cfg.tol)
+    H_test = apply_threshold(H_test, cfg.threshold, cfg.tol)
     if cfg.threshold > 0:
         zero = np.mean(np.concatenate([H_train.ravel(), H_test.ravel()]) == 0) * 100
         print(f"threshold {cfg.threshold}: {zero:.1f}% of coefficients set to zero")
