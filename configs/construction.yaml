@@ -1,0 +1,25 @@
+# Signed hypergraph construction (Eq. 7, Algorithm 1)
+
+# ---- data: Pearson correlation stacks, shape (N, |V|, |V|) ----
+train_correlation: data/x_train.npy
+test_correlation:  data/x_test.npy
+output_dir: data                  # writes H_train.npy and H_test.npy
+
+# transductive: construct jointly from training and test connectivity (labels are not used)
+# inductive:    construct from training subjects, then infer each test subject (Section 2.7)
+setting: transductive
+
+# ---- Eq. (7) ----
+num_hyperedges: 20
+alpha: 0.6
+beta: 0.06
+lam: 0.03
+
+# ---- Algorithm 1 ----
+learning_rate: null               # gamma; null -> step_size * N * |V|^2
+step_size: 0.001
+max_iters: 2000                   # T_max
+tol: 1.0e-6                       # epsilon
+init_random_state: 42
+
+verbose: true

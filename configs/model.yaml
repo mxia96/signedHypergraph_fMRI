@@ -1,0 +1,31 @@
+# Signed hypergraph network (Section 2.3) trained on the training set, evaluated on the test set
+
+# ---- data ----
+train_features:   data/x_train.npy   # (N, |V|, |V|) Pearson correlation rows as node features
+train_hypergraph: data/H_train.npy   # (N, |V|, |E|) incidence matrices
+train_labels:     data/y_train.npy   # (N,) binary labels
+test_features:    data/x_test.npy
+test_hypergraph:  data/H_test.npy
+test_labels:      data/y_test.npy
+output_dir: outputs
+
+# ---- architecture ----
+hidden_features: 32
+input_activation: tanh
+depth: 1
+conv_dropout: 0.2
+pool_ratio: 0.8
+pool_momentum: 0.9
+readout_hidden: 64
+readout_dropout: 0.0
+
+# ---- optimisation (Section 2.6) ----
+lr: 0.001                         # Adam
+weight_decay: 0.001
+scheduler_step: 10                # StepLR
+scheduler_gamma: 0.8
+epochs: 60
+batch_size: 60
+
+device: cuda
+seed: 42
