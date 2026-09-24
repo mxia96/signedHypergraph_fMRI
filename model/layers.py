@@ -18,7 +18,7 @@ class HypergraphConv(nn.Module):
 
     def __init__(self, in_features: int, out_features: int, dropout: float = 0.2):
         super().__init__()
-        self.lin = nn.Linear(in_features, out_features)
+        self.lin = nn.Linear(in_features, out_features, bias=False)
         torch.nn.init.xavier_normal_(self.lin.weight)
         self.bias = Parameter(torch.zeros(out_features))
         self.dropout = nn.Dropout(p=dropout)
