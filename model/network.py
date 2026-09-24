@@ -13,10 +13,11 @@ _ACTIVATIONS = {"none": nn.Identity, "relu": nn.ReLU, "tanh": nn.Tanh, "gelu": n
 class SignedHypergraphNet(nn.Module):
     """Signed hypergraph network (Section 2.3).
 
-    Node features are the rows of the subject's Pearson correlation matrix. Each
-    block applies groupwise pooling (Algorithm 2) followed by a signed hypergraph
-    convolution (Eq. 11). The readout concatenates all node embeddings and applies
-    a two-layer fully connected classifier.
+    Pearson node features -> linear -> hypergraph convolution -> [groupwise pooling
+    -> hypergraph convolution] x depth -> readout. Node features are the rows of the
+    subject's Pearson correlation matrix, convolutions follow Eq. (11) and pooling
+    follows Algorithm 2. The readout concatenates all node embeddings and applies a
+    two-layer fully connected classifier.
     """
 
     def __init__(self, cfg, num_roi):
@@ -24,6 +25,7 @@ class SignedHypergraphNet(nn.Module):
         out = cfg.hidden_features
         self.input_proj = nn.Linear(num_roi, out)
         self.input_act = _ACTIVATIONS[cfg.input_activation]()
+        self.conv_in = HypergraphConv(out, out, dropout=cfg.conv_dropout)
         self.pools = nn.ModuleList(
             [GroupwiseTopKPooling(out, num_roi, cfg.pool_ratio, cfg.pool_momentum)
              for _ in range(cfg.depth)])
@@ -39,6 +41,7 @@ class SignedHypergraphNet(nn.Module):
 
     def forward(self, x, H):
         x = self.input_act(self.input_proj(x))
+        x = F.relu(self.conv_in(x, H))
         for pool, conv in zip(self.pools, self.convs):
             x, H, _ = pool(x, H)
             x = F.relu(conv(x, H))
