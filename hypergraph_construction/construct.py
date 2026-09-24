@@ -20,6 +20,13 @@ def learning_rate(cfg, n_subjects, n_rois):
     return cfg.step_size * n_subjects * n_rois ** 2
 
 
+def apply_threshold(H, threshold):
+    """Set incidence coefficients with |h_ij| < threshold to zero."""
+    if threshold <= 0:
+        return H
+    return np.where(np.abs(H) < threshold, 0.0, H)
+
+
 def _converged(J_new, J_old, eps):
     return np.abs(J_new - J_old) / np.maximum(np.abs(J_old), eps) <= eps
 

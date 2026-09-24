@@ -22,4 +22,7 @@ max_iters: 2000                   # T_max
 tol: 1.0e-6                       # epsilon
 init_random_state: 42
 
+# coefficients with |h_ij| < threshold are set to zero in the saved incidence matrices (0 disables)
+threshold: 0.05
+
 verbose: true
