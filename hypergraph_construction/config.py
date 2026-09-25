@@ -17,7 +17,7 @@ class ConstructionConfig:
     setting: str = "transductive"
 
     # Eq. (7)
-    num_hyperedges: int = 20
+    num_hyperedges: int = 15
     alpha: float = 0.6
     beta: float = 0.06
     lam: float = 0.03

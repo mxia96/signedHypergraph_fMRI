@@ -10,7 +10,7 @@ output_dir: data                  # writes H_train.npy and H_test.npy
 setting: transductive
 
 # ---- Eq. (7) ----
-num_hyperedges: 20
+num_hyperedges: 15
 alpha: 0.6
 beta: 0.06
 lam: 0.03
