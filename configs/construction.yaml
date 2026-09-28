@@ -1,0 +1,24 @@
+# Signed hypergraph construction
+
+# ---- data: Pearson correlation stacks (N, |V|, |V|) ----
+train_correlation: data/x_train.npy
+test_correlation:  data/x_test.npy
+output_dir: data                  # writes H_train.npy and H_test.npy
+
+# ---- objective ----
+num_hyperedges: 15
+alpha: 0.6
+beta: 0.06
+lam: 0.03
+
+# ---- optimisation ----
+learning_rate: null               # null -> step_size * N * |V|^2
+step_size: 0.001
+max_iters: 2000
+tol: 1.0e-6
+init_random_state: 42
+
+# zero |h_ij| < threshold and re-normalise rows (0 disables)
+threshold: 0.0
+
+verbose: true
